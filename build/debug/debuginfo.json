@@ -1,0 +1,44 @@
+[
+  {
+    "artifact": "frcJava (in project 2021 SwerveDrive Refactored)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "2021 SwerveDrive Refactored",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project 2021-SwerveDrive - VihaalCanBreak)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "2021-SwerveDrive - VihaalCanBreak",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project 2021-SwerveDrive - WORKING)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "2021-SwerveDrive - WORKING",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project 2021-SwerveDrive)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "2021-SwerveDrive",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project 2022-Swerve-Drive)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "2022-Swerve-Drive",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project SWERVEDRIVE BREAK PLEASE)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "SWERVEDRIVE BREAK PLEASE",
+    "language": "java"
+  }
+]
