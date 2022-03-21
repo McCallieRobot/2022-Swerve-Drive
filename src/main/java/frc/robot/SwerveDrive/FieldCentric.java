@@ -22,7 +22,7 @@ public class FieldCentric {
     public static void CalculateWheelAngles(double motorSpeed, double rotateSpeed) {
 
         double stickAngle = Controller.l_stick.getAngle();
-        double gyroAngle = -(gyro.getYaw() + 180);
+        double gyroAngle = (gyro.getYaw() + 180);
         
         double robotDirection = stickAngle - gyroAngle; // This is the field oriented direction of the robot
 
