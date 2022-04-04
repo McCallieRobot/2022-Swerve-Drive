@@ -6,17 +6,23 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
+import javax.lang.model.util.ElementScanner6;
+
 import com.ctre.phoenix.sensors.CANCoder;
 
+import frc.robot.Intake.Intake;
 import frc.robot.Controller.Controller;
 import frc.robot.Controller.SpeedControl;
+import frc.robot.Shooter.Shooter;
 import frc.robot.SwerveDrive.FieldCentric;
 import frc.robot.SwerveDrive.SwerveDrive;
 import frc.robot.Utilities.ID;
+import frc.robot.Utilities.Utilities;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Shooter.*;
 
 public class Robot extends TimedRobot {
 
@@ -31,6 +37,8 @@ public class Robot extends TimedRobot {
 
     Controller controller = new Controller();
     SwerveDrive swerveDrive = new SwerveDrive(1, controller);
+    Shooter shooter = new Shooter(controller);
+    Intake intake = new Intake(controller);
 
     @Override
     public void robotInit() {
@@ -45,7 +53,11 @@ public class Robot extends TimedRobot {
 
         //This value is multiplied by the motor speed to get more control over speed
         speedModifier = SpeedControl.GetSpeedModifier(controller.get().getPOV(), speedModifier);
+
+        //Update (Runtime) function on modules
         swerveDrive.Update(speedModifier);
+        shooter.Update();
+        intake.Update();
 
         //Getting the XY values of both the Left and Right Joysticks
         double l_x_value = Controller.l_stick.getXValue();
@@ -77,22 +89,79 @@ public class Robot extends TimedRobot {
 
     }
 
+    double x_drive = 0;
+    double y_drive = 0;
     @Override
     public void autonomousPeriodic() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        NetworkTableEntry tx = table.getEntry("tx");
         NetworkTableEntry ty = table.getEntry("ty");
-        NetworkTableEntry ta = table.getEntry("ta");
+        double targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
-        //read values periodically
-        double x = tx.getDouble(0.0);
-        double y = ty.getDouble(0.0);
-        double area = ta.getDouble(0.0);
+        // how many degrees back is your limelight rotated from perfectly vertical?
+        double limelightMountAngleDegrees = 12.0;
 
-        //post to smart dashboard periodically
-        SmartDashboard.putNumber("LimelightX", x);
-        SmartDashboard.putNumber("LimelightY", y);
-        SmartDashboard.putNumber("LimelightArea", area);
+        // distance from the center of the Limelight lens to the floor
+        double limelightLensHeightInches = 6.5;
+
+        //Angle of goal relative to gyro (gyroAngle of goal)
+        double goalAngleDegrees = 0;
+
+        double gyro_angle = FieldCentric.get_gyro_angle();
+
+        // distance from the target to the floor
+        double goalHeightInches = 18.0;
+
+        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+        //calculate distance
+        double goalDistance = (goalHeightInches - limelightLensHeightInches)/Math.tan(angleToGoalRadians);
+
+        //System.out.println("Dist: " + goalDistance + " Ang: " + gyro_angle);
+
+        //Get Current Angles of Motors
+        double backLeftAbsolutePosition = backLeftEncoder.getAbsolutePosition();
+        double backRightAbsolutePosition = backRightEncoder.getAbsolutePosition();
+        double frontRightAbsolutePosition = frontRightEncoder.getAbsolutePosition();
+        double frontLeftAbsolutePosition = frontLeftEncoder.getAbsolutePosition();
+
+        //Rotate Robot so gyroangle == goalAngleDegrees
+
+
+        //Drive robot 40 inches away from goal
+
+        if (goalDistance >= 40) {
+            if (Utilities.inRange(gyro_angle, 315, 360) || Utilities.inRange(gyro_angle, 0, 45))
+            {
+                x_drive = 0;
+                y_drive = 1;
+            }
+            else if (Utilities.inRange(gyro_angle, 46, 135))
+            {
+                x_drive = -1;
+                y_drive = 0;
+            }
+            else if (Utilities.inRange(gyro_angle, 136, 225))
+            {
+                x_drive = 0;
+                y_drive = -1;
+            }
+            else if (Utilities.inRange(gyro_angle, 226, 314))
+            {
+                x_drive = 1;
+                y_drive = 0;
+            }
+        }
+        else
+        {
+            x_drive = 0;
+            y_drive = 0; 
+        }
+
+        System.out.println("X: " + x_drive + " Y: " + y_drive);
+
+        //Move the motors
+        swerveDrive.Drive(x_drive, y_drive, 0, backLeftAbsolutePosition, backRightAbsolutePosition, frontLeftAbsolutePosition, frontRightAbsolutePosition);
     }
 
     @Override

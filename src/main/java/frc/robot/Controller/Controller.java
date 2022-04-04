@@ -2,6 +2,7 @@ package frc.robot.Controller;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.Utilities.Utilities;
 
 public class Controller {
@@ -20,6 +21,11 @@ public class Controller {
 
     public XboxController get() {
         return controller;
+    }
+
+    public double getRTrigger()
+    {
+        return controller.getTriggerAxis(Hand.kRight);
     }
 
     public static class l_stick {

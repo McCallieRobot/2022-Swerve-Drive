@@ -18,4 +18,12 @@ public class Utilities {
         return angleInDegrees;
     }
 
+    public static boolean inRange(double theta, double r1, double r2)
+    {
+        if (theta >= r1 && theta <= r2)
+        {
+            return true;
+        }
+        return false;
+    }
 }

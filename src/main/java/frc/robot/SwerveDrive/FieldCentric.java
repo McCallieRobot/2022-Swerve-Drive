@@ -19,6 +19,11 @@ public class FieldCentric {
         gyro = new AHRS(SPI.Port.kMXP);
     }
 
+    public static double get_gyro_angle()
+    {
+        return gyro.getYaw();
+    }
+
     public static void CalculateWheelAngles(double motorSpeed, double rotateSpeed) {
 
         double stickAngle = Controller.l_stick.getAngle();
