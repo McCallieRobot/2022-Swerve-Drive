@@ -21,7 +21,10 @@ public class ID {
 
     public static final int shooterMotorID = 35;
 
-    public static final int talonMotorID = 0;
+    public static final int intakeMotorID = 0;
+    public static final int loadMotorID = 4;
+    public static final int climberRightID = 2;
 
-    public static final int armID = 0;
+    public static final int arm0ID = 0;
+    public static final int arm1ID = 0;
 }

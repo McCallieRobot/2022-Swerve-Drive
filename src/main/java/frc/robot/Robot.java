@@ -11,6 +11,7 @@ import javax.lang.model.util.ElementScanner6;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import frc.robot.Intake.Intake;
+import frc.robot.Climber.Climber;
 import frc.robot.Controller.Controller;
 import frc.robot.Controller.SpeedControl;
 import frc.robot.Shooter.Shooter;
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
     SwerveDrive swerveDrive = new SwerveDrive(1, controller);
     Shooter shooter = new Shooter(controller);
     Intake intake = new Intake(controller);
+    Climber climber = new Climber(controller);
 
     @Override
     public void robotInit() {
@@ -58,6 +60,7 @@ public class Robot extends TimedRobot {
         swerveDrive.Update(speedModifier);
         shooter.Update();
         intake.Update();
+        climber.Update();
 
         //Getting the XY values of both the Left and Right Joysticks
         double l_x_value = Controller.l_stick.getXValue();

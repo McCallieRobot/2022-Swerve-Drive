@@ -14,8 +14,6 @@ public class Shooter {
     private Controller controller;
     public static CANSparkMax shooterMotor = new CANSparkMax(ID.shooterMotorID, MotorType.kBrushless);
 
-    public static WPI_TalonSRX talonMotor = new WPI_TalonSRX(ID.talonMotorID);
-
     public Shooter(Controller _controller) {
         controller = _controller;
     }
@@ -26,14 +24,12 @@ public class Shooter {
         if (controller.get().getXButton())
         {
             shooterMotor.set(-0.65);
-            talonMotor.set(.25);
             controller.get().setRumble(RumbleType.kLeftRumble, 1.0);
             controller.get().setRumble(RumbleType.kRightRumble, 1.0);
         }
         else
         {
             shooterMotor.set(0);
-            talonMotor.set(0);
             controller.get().setRumble(RumbleType.kLeftRumble, 0.0);
             controller.get().setRumble(RumbleType.kRightRumble, 0.0);
         }
