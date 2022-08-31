@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class FieldCentric {
 
-    //To-do: Cleanup this, only have one of these and just replace vars
-
     private static AHRS gyro; 
 
     public FieldCentric()
